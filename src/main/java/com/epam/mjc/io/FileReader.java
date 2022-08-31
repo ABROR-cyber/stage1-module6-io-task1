@@ -11,9 +11,7 @@ public class FileReader {
         try (FileInputStream reader = new FileInputStream(file)) {
 
             byte[] bytes = new byte[reader.available()];
-            while (reader.read(bytes)>0) {
-
-            }
+            reader.read(bytes);
             int count=0;
             StringBuilder stringBuilder = new StringBuilder();
             for (byte c : bytes) {
