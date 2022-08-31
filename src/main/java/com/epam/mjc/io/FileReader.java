@@ -11,34 +11,30 @@ public class FileReader {
         try (FileInputStream reader = new FileInputStream(file)) {
 
             byte[] bytes = new byte[reader.available()];
-            reader.read(bytes);
+            while (reader.read(bytes)>0) {
+
+            }
+            int count=0;
             StringBuilder stringBuilder = new StringBuilder();
             for (byte c : bytes) {
-                if (c == ' ')
-                    stringBuilder.append("start");
-                else
-                    stringBuilder.append((char) c);
+                stringBuilder.append((char) c);
             }
-            stringBuilder.insert(stringBuilder.indexOf("Age")-1,"end");
-            stringBuilder.insert(stringBuilder.indexOf("Email")-1,"end");
-            stringBuilder.insert(stringBuilder.indexOf("Phone")-1,"end");
-            stringBuilder.insert(stringBuilder.length()-1,"end");
-
-            String s = stringBuilder.toString();
-            for (int i = 0; i < 4; i++) {
-                String text = s.substring(s.indexOf("start") + 5, s.indexOf("end")-1);
-                if (i==0)
-                    profile.setName(text);
-                else if (i==1)
-                    profile.setAge(Integer.parseInt(text));
-                else if (i==2)
-                    profile.setEmail(text);
-                else if (i==3)
-                    profile.setPhone(Long.parseLong(text));
-                if (i != 3)
-                        s = s.substring(s.indexOf("end") + 3);
-
-            }
+            stringBuilder.insert(stringBuilder.indexOf("Name") , "1-chapter");
+            stringBuilder.insert(stringBuilder.indexOf("Age") , "2-chapter");
+            stringBuilder.insert(stringBuilder.indexOf("Email") , "3-chapter");
+            stringBuilder.insert(stringBuilder.indexOf("Phone") , "4-chapter");
+            String text = stringBuilder.toString();
+            String s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
+            profile.setName(s);
+            text=text.substring(text.indexOf("2-chapter"));
+            s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
+            profile.setAge(Integer.parseInt(s));
+            text=text.substring(text.indexOf("3-chapter"));
+            s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
+            profile.setEmail(s);
+            text=text.substring(text.indexOf("4-chapter"));
+            s = text.substring(text.indexOf(": ")+2,text.indexOf("\r"));
+            profile.setPhone(Long.parseLong(s));
 
         } catch (IOException e) {
             e.printStackTrace();
