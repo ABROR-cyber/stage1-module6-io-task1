@@ -19,7 +19,6 @@ public class FileReader {
                     stringBuilder.append((char) c);
             }
             String s = stringBuilder.toString();
-            System.out.println(s);
             for (int i = 0; i < 4; i++) {
                 String text = s.substring(s.indexOf("start") + 5, s.indexOf("\r"));
                 if (i==0)
