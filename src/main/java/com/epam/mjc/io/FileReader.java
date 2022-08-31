@@ -27,15 +27,12 @@ public class FileReader {
                     profile.setAge(Integer.parseInt(text));
                 else if (i==2)
                     profile.setEmail(text);
-                else if (i==3)
-                    profile.setPhone(Long.parseLong(text));
+                else profile.setPhone(Long.parseLong(text));
                 if (i != 3)
                         s = s.substring(s.indexOf("\r") + 2);
 
             }
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
