@@ -7,11 +7,10 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
-        try {
-            FileInputStream reader = new FileInputStream(file);
+        try (FileInputStream reader = new FileInputStream(file)){
+
             byte[] bytes = new byte[reader.available()];
             reader.read(bytes);
-            reader.close();
             StringBuilder stringBuilder = new StringBuilder();
             for (byte c : bytes) {
                 stringBuilder.append((char) c);
