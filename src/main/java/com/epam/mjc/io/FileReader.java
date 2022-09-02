@@ -5,8 +5,6 @@ import java.io.IOException;
 
 
 public class FileReader {
-    public static final String start="startWord";
-    public static final String end="endWord";
     public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
         try (FileInputStream reader = new FileInputStream(file)) {
@@ -17,20 +15,20 @@ public class FileReader {
                     stringBuilder.append((char) c);
                 }
                 String s = stringBuilder.toString();
-                s = s.replace("\r\n", end);
-                s = s.replace(": ", start);
-                profile.setName(s.substring(s.indexOf(start) + 9, s.indexOf(end)));
-                s = s.substring(s.indexOf(end) + 3);
-                profile.setAge(Integer.parseInt(s.substring(s.indexOf(start) + 9, s.indexOf(end))));
-                s = s.substring(s.indexOf(end) + 7);
-                profile.setEmail(s.substring(s.indexOf(start) + 9, s.indexOf(end)));
-                s = s.substring(s.indexOf(end) + 7);
-                profile.setPhone(Long.parseLong(s.substring(s.indexOf(start) + 9, s.indexOf(end))));
+                String[] split = s.split("\n");
+                profile.setName(getValue(split[0]));
+                profile.setAge(Integer.parseInt(getValue(split[1])));
+                profile.setEmail(getValue(split[2]));
+                profile.setPhone(Long.parseLong(getValue(split[3])));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return profile;
+    }
+
+    public String getValue(String str) {
+        return str.substring(str.indexOf(" ") + 1, str.indexOf("\r"));
     }
 }
 
