@@ -1,43 +1,34 @@
 package com.epam.mjc.io;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 
 public class FileReader {
-
-
     public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
         try (FileInputStream reader = new FileInputStream(file)) {
-
             byte[] bytes = new byte[reader.available()];
             reader.read(bytes);
-            int count=0;
             StringBuilder stringBuilder = new StringBuilder();
             for (byte c : bytes) {
                 stringBuilder.append((char) c);
             }
-            stringBuilder.insert(stringBuilder.indexOf("Name") , "1-chapter");
-            stringBuilder.insert(stringBuilder.indexOf("Age") , "2-chapter");
-            stringBuilder.insert(stringBuilder.indexOf("Email") , "3-chapter");
-            stringBuilder.insert(stringBuilder.indexOf("Phone") , "4-chapter");
-            String text = stringBuilder.toString();
-            String s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
-            profile.setName(s);
-            text=text.substring(text.indexOf("2-chapter"));
-            s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
-            profile.setAge(Integer.parseInt(s));
-            text=text.substring(text.indexOf("3-chapter"));
-            s = text.substring(text.indexOf(": ")+2, text.indexOf("\r"));
-            profile.setEmail(s);
-            text=text.substring(text.indexOf("4-chapter"));
-            s = text.substring(text.indexOf(": ")+2,text.indexOf("\r"));
-            profile.setPhone(Long.parseLong(s));
-
+            String s = stringBuilder.toString();
+            s=s.replace("\r\n","end");
+            s=s.replace(": ","start");
+            profile.setName(s.substring(s.indexOf("start")+5,s.indexOf("end")));
+            s=s.substring(s.indexOf("end")+3);
+            profile.setAge(Integer.parseInt(s.substring(s.indexOf("start")+5,s.indexOf("end"))));
+            s=s.substring(s.indexOf("end")+3);
+            profile.setEmail(s.substring(s.indexOf("start")+5,s.indexOf("end")));
+            s=s.substring(s.indexOf("end")+3);
+            profile.setPhone(Long.parseLong(s.substring(s.indexOf("start")+5,s.indexOf("end"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return profile;
     }
 }
+
