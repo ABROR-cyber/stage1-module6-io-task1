@@ -5,14 +5,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class FileReaderTest {
 
@@ -38,8 +37,25 @@ public class FileReaderTest {
         }
     }
 
+    public static int getRandomInt(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public static void createTestFile(String randomString, Integer randomInt) {
+        try {
+            FileUtils.writeStringToFile(new File(TEST_FILE.toUri()),
+                    "Name: " + randomString + System.lineSeparator() +
+                            "Age: " + randomInt + System.lineSeparator() +
+                            "Email: " + randomString + System.lineSeparator() +
+                            "Phone: " + randomInt + System.lineSeparator(),
+                    "UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
-    public void testProgramReadsDataCorrectly () {
+    public void testProgramReadsDataCorrectly() {
         FileReader fileReader = new FileReader();
         Profile actual = fileReader.getDataFromFile(new File(TEST_FILE.toUri()));
         assertEquals(profile, actual);
@@ -67,7 +83,7 @@ public class FileReaderTest {
         assertFalse("Code contains prohibited \"FileUtils\"", sourceCode.contains("FileUtils"));
         assertFalse("Code contains prohibited \"IOUtils\"", sourceCode.contains("IOUtils"));
         assertFalse("Code contains prohibited \"Scanner\"", sourceCode.contains("Scanner"));
-        assertFalse("Code contains prohibited \"StreamTokenizer\"",sourceCode.contains("StreamTokenizer"));
+        assertFalse("Code contains prohibited \"StreamTokenizer\"", sourceCode.contains("StreamTokenizer"));
         assertFalse("Code contains prohibited \"FileChannel\"", sourceCode.contains("FileChannel"));
         assertFalse("Code contains prohibited \"com.google\"", sourceCode.contains("com.google"));
     }
@@ -75,23 +91,6 @@ public class FileReaderTest {
     private String readFileIntoString(Path sourcePath) {
         try {
             return Files.readString(sourcePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static int getRandomInt(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
-    public static void createTestFile(String randomString, Integer randomInt) {
-        try {
-            FileUtils.writeStringToFile(new File(TEST_FILE.toUri()),
-                    "Name: " + randomString + System.lineSeparator() +
-                            "Age: "  + randomInt + System.lineSeparator() +
-                            "Email: " + randomString + System.lineSeparator() +
-                            "Phone: "  + randomInt + System.lineSeparator(),
-                    "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
