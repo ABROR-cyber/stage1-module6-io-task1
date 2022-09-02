@@ -5,8 +5,8 @@ import java.io.IOException;
 
 
 public class FileReader {
-    final String start="startWord";
-    final String end="endWord";
+    public static final String start="startWord";
+    public static final String end="endWord";
     public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
         try (FileInputStream reader = new FileInputStream(file)) {
