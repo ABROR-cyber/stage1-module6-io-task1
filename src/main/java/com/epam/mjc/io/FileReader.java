@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-
 public class FileReader {
     public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
@@ -16,10 +15,11 @@ public class FileReader {
                 }
                 String s = stringBuilder.toString();
                 String[] split = s.split("\n");
-                profile.setName(getValue(split[0]));
-                profile.setAge(Integer.parseInt(getValue(split[1])));
-                profile.setEmail(getValue(split[2]));
-                profile.setPhone(Long.parseLong(getValue(split[3])));
+
+                profile.setName(split[0].split(":")[1].trim());
+                profile.setAge(Integer.parseInt(split[1].split(":")[1].trim()));
+                profile.setEmail(split[2].split(":")[1].trim());
+                profile.setPhone(Long.parseLong(split[3].split(":")[1].trim()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,8 +27,6 @@ public class FileReader {
         return profile;
     }
 
-    public String getValue(String str) {
-        return str.substring(str.indexOf(" ") + 1, str.indexOf("\r"));
-    }
+
 }
 
